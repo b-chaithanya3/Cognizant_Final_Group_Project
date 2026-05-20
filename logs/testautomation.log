@@ -1,0 +1,14 @@
+2026-05-19 08:58:31 INFO  BaseClass:28 - navigate to car loan calculator
+2026-05-19 08:58:31 INFO  BaseClass:34 - Entering amount,rate,time
+2026-05-19 08:58:32 INFO  BaseClass:40 - getting emi value
+2026-05-19 08:58:32 INFO  BaseClass:48 - Entering car loan emi data into excel file 
+2026-05-19 08:59:18 INFO  BaseClass:28 - navigate to Home loan calculator
+2026-05-19 08:59:18 INFO  BaseClass:34 - Entering amount,rate,time
+2026-05-19 08:59:19 INFO  BaseClass:40 - getting emi value
+2026-05-19 09:24:57 INFO  BaseClass:28 - navigate to car loan calculator
+2026-05-19 09:24:58 INFO  BaseClass:34 - Entering amount,rate,time
+2026-05-19 09:24:58 INFO  BaseClass:40 - getting emi value
+2026-05-19 09:24:58 INFO  BaseClass:48 - Entering car loan emi data into excel file 
+2026-05-19 09:25:41 INFO  BaseClass:28 - navigate to Home loan calculator
+2026-05-19 09:25:41 INFO  BaseClass:34 - Entering amount,rate,time
+2026-05-19 09:25:42 INFO  BaseClass:40 - getting emi value
