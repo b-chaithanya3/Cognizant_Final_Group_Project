@@ -39,6 +39,7 @@ public class Homeloan{
     public void i_should_see_the_home_loan_emi_value_displayed() {
         BaseClass.getLogger().info("getting emi value");
         String emi = homeLoanPage.getEMI();
+        homeLoanPage.scroll();
         Assert.assertNotEquals(emi,"₹0","EMI should not be zero");
         System.out.println("Home Loan EMI: " + emi);
     }

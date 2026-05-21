@@ -41,6 +41,15 @@ public class CarLoan{
         String emi = carLoanPage.getEMI();
         Assert.assertNotEquals(emi,"₹0","EMI should not be zero");
         System.out.println("Car Loan EMI: " + emi);
+        String emiValue = carLoanPage.getEMI().replaceAll("[^0-9.]", "");
+        double e = Double.parseDouble(emiValue);
+        carLoanPage.scrollDown();
+        double principal = 1500000.0;
+        double monthlyRate = (9.5 / 100) / 12;
+        double interestM1 = principal * monthlyRate;
+        double principalM1 = e - interestM1;
+        System.out.println("Month 1 Interest: " + Math.round(interestM1));
+        System.out.println("Month 1 Principal: " + Math.round(principalM1));
     }
 
     @And("I capture the Car Loan EMI table data into Excel file {string}")
