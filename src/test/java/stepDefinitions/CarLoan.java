@@ -54,8 +54,8 @@ public class CarLoan {
         double interestM1 = principal * monthlyRate;
         double principalM1 = emi - interestM1;
 
-        System.out.println("Month 1 Interest: " + Math.round(interestM1));
-        System.out.println("Month 1 Principal: " + Math.round(principalM1));
+        System.out.println("Interest for one month: " + Math.round(interestM1));
+        System.out.println("Principal for one month: " + Math.round(principalM1));
         String fileName = "test-output/screenshots/Error_" + System.currentTimeMillis() + ".png";
         try {
             ScreenshotUtil.captureScreenshot(driver, fileName);
