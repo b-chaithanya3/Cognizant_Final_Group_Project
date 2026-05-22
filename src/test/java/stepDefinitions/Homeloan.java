@@ -1,5 +1,4 @@
 package stepDefinitions;
-
 import factory.BaseClass;
 import io.qameta.allure.Story;
 import org.junit.Assert;
@@ -7,9 +6,7 @@ import pages.Homepage;
 import pages.HomeLoanPage;
 import io.cucumber.java.en.*;
 import ExcelUtil.ExcelUtil;
-
 import org.openqa.selenium.WebDriver;
-
 import java.util.List;
 
 public class Homeloan{

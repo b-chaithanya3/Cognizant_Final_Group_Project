@@ -1,5 +1,4 @@
 package stepDefinitions;
-
 import ExcelUtil.ScreenshotUtil;
 import factory.BaseClass;
 import io.qameta.allure.Story;
@@ -8,8 +7,6 @@ import org.openqa.selenium.*;
 import pages.Homepage;
 import pages.CarLoanPage;
 import io.cucumber.java.en.*;
-
-import java.util.List;
 
 public class CarLoan {
 
