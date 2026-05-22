@@ -1,14 +1,14 @@
 package stepDefinitions;
 
 import factory.BaseClass;
+import io.qameta.allure.Story;
 import org.junit.Assert;
 import pages.Homepage;
 import pages.HomeLoanPage;
-import ExcelUtil.ExcelUtil;
 import io.cucumber.java.en.*;
+import ExcelUtil.ExcelUtil;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -17,37 +17,35 @@ public class Homeloan{
     WebDriver driver = BaseClass.getdriver();
     Homepage homepage = new Homepage(driver);
     HomeLoanPage homeLoanPage = new HomeLoanPage(driver);
-
-    @Given("I am on the homepage")
-    public void i_am_on_the_homepage() {
-        // Hooks already navigate to appURL
+    @Story("Open Home Loan Calculator")   //  Added
+    @Given("user open the Home Loan EMI Calculator")
+    public void openHomeLoanCalculator() {
+        homepage.navigateToHomeLoanCalculator();
     }
 
-    @When("I navigate to the Home Loan Calculator")
-    public void i_navigate_to_home_loan_calculator() {
-        BaseClass.getLogger().info("navigate to Home loan calculator");
-        homepage.goToHomeLoan();
+    @Story("Enter Home Loan Details")     //  Added
+    @When("user enter home loan amount {string}, tenure {string}, and interest rate {string}")
+    public void enterHomeLoanDetails(String amount, String tenure, String rate) {
+        homeLoanPage.enterLoanDetails(amount, tenure, rate);
     }
 
-    @When("I enter home loan amount {string}, interest rate {string}, and tenure {string}")
-    public void i_enter_home_loan_details(String amt, String rate, String time) {
-        BaseClass.getLogger().info("Entering amount,rate,time");
-        homeLoanPage.enterDetails(amt, rate, time);
-    }
+    @Story("Verify Home Loan EMI")        //  Added
+    @Then("user should see the monthly EMI for home loan displayed")
+    public void verifyHomeLoanEMI() {
+        String emivalue= homeLoanPage.getMonthlyEMI();
+        String cleanedEMI = emivalue.replaceAll("[^0-9.]", "");
+        double emi = Double.parseDouble(cleanedEMI);
 
-    @Then("I should see the Home Loan EMI value displayed")
-    public void i_should_see_the_home_loan_emi_value_displayed() {
-        BaseClass.getLogger().info("getting emi value");
-        String emi = homeLoanPage.getEMI();
-        homeLoanPage.scroll();
-        Assert.assertNotEquals(emi,"₹0","EMI should not be zero");
+        Assert.assertTrue(emi > 0);
         System.out.println("Home Loan EMI: " + emi);
+        BaseClass.getLogger().info("Home Loan EMI: " + emi);
     }
 
-    @And("I capture the Home Loan EMI table data into Excel file {string}")
-    public void i_capture_home_table_data_into_excel(String filename) {
-        List<String[]> tableData = homeLoanPage.getYearTable();
-        ExcelUtil.writeData(tableData,"Homeloan.xlsx");
-        //LogUtil.writeLog("Home Loan amortization table stored in Excel.");
+    @Story("Store EMI Data in Excel")     // ✅ Added
+    @Then("user should store EMI details in Excel")
+    public void storeEMIInExcel() throws Exception {
+        List<String[]> tableData = homeLoanPage.extractYearlyTableData();
+        ExcelUtil.writeFullTable("HomeLoanData", tableData);
+        BaseClass.getLogger().info("Home Loan amortization table stored in Excel.");
     }
 }

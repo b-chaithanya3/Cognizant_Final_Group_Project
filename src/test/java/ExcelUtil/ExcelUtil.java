@@ -3,50 +3,28 @@ package ExcelUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openqa.selenium.WebElement;
 
 import java.io.FileOutputStream;
 import java.util.List;
 
 public class ExcelUtil {
+    // Write full table (for Home Loan amortization)
+	public static void writeFullTable(String fileName, List<String[]> tableData) throws Exception {
+	    Workbook wb = new XSSFWorkbook();
+	    Sheet sheet = wb.createSheet("Schedule");
+	    int rowNum = 0;
+	    for (String[] rowData : tableData) {
+	        Row row = sheet.createRow(rowNum++);
+	        for (int i = 0; i < rowData.length; i++) {
+	            row.createCell(i).setCellValue(rowData[i]);
+	        }
+	    }
 
-    public static void writeData(List<String[]> rows1,String path) {
+	    
+	    FileOutputStream fos = new FileOutputStream("test-output/" + fileName + ".xlsx");
+	    wb.write(fos);
+	    wb.close();
+	}
 
-        try {
-            Workbook wb = new XSSFWorkbook();
-            Sheet sheet = wb.createSheet("Schedule");
-            int rowNum = 0;
-            for (String[] rowData : rows1) {
-                if (rowData == null) {
-                    continue;
-                }
-                boolean isEmpty=true;
-                for(String cell:rowData){
-                    if(cell!=null && !cell.trim().isEmpty()){
-                        isEmpty=false;
-                        break;
-                    }
-                }
-                if(isEmpty){
-                    continue;
-                }
-                Row row = sheet.createRow(rowNum++);
-                for (int i = 0; i < rowData.length; i++) {
-                    String value=rowData[i]!=null?rowData[i].trim():"";
-                    row.createCell(i).setCellValue(value);
-                }
-            }
-            FileOutputStream fos = new FileOutputStream(path);
-            wb.write(fos);
-            wb.close();
-
-            System.out.println(" Excel Created");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

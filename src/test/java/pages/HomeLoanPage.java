@@ -1,9 +1,9 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.junit.Assert;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,28 +19,51 @@ public class HomeLoanPage extends BasePage{
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     // Locators
-    By loanAmount = By.xpath("//input[@id='loanamount']");
-    By interest = By.xpath("//input[@id='loaninterest']");
-    By tenure = By.xpath("//input[@id='loanterm']");
-    By emiValue = By.xpath("//div[@id='emiamount']//p[contains(text(),'₹')]");
+    @FindBy(name="loan_amt")
+    WebElement loanAmount;
 
-    public void enterDetails(String amt, String rate, String time) {
+    @FindBy(name="loan_tenure")
+    WebElement tenure;
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(loanAmount)).clear();
-        driver.findElement(loanAmount).sendKeys(amt);
-        driver.findElement(interest).clear();
-        driver.findElement(interest).sendKeys(rate);
-        driver.findElement(tenure).clear();
-        driver.findElement(tenure).sendKeys(time);
+    @FindBy(name="interest_rate")
+    WebElement interestRate;
+
+    @FindBy(xpath="//p[@class='emi_amt']")
+    WebElement emiAmount;
+
+    //  Updated Locator to find rows specifically within the Amortisation table body
+    @FindBy(xpath="//table//tbody/tr")
+    List<WebElement> scheduleRows;
+
+    public void enterLoanDetails(String amount, String tenureValue, String rate) {
+
+        double amt = Double.parseDouble(amount);
+        int ten = Integer.parseInt(tenureValue);
+        double rt = Double.parseDouble(rate);
+
+        loanAmount.clear();
+        loanAmount.sendKeys(amount);
+        Assert.assertTrue(amt>100000);
+        tenure.clear();
+        tenure.sendKeys(tenureValue);
+        Assert.assertTrue(ten>0);
+        interestRate.clear();
+        interestRate.sendKeys(rate, Keys.ENTER);
+        Assert.assertTrue(rt>0);
     }
-    public String getEMI() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(emiValue)).getText();
+
+    public String getMonthlyEMI() {
+        return emiAmount.getText();
+
     }
 
-    public List<String[]> getYearTable() {
-        List<WebElement> scheduleRows=driver.findElements(By.xpath("//div[@id='emipaymentdetails']//tbody//tr"));
+    // Updated to capture headers and all available rows
+    public List<String[]> extractYearlyTableData() {
         List<String[]> dataList = new ArrayList<>();
-        dataList.add(new String[]{"Year", "Principal(A)", "Interest(B)", "Total Payment(A+B)", "Balance", "Loan Paid To Date"});
+
+        // Add Header row manually if not easily scrapable
+        dataList.add(new String[]{"Year", "Opening Balance", "EMI*12", "Interest paid yearly", "Principal paid yearly", "Closing Balance"});
+
         for (WebElement row : scheduleRows) {
             List<WebElement> cells = row.findElements(By.tagName("td"));
             if (!cells.isEmpty()) {
@@ -52,10 +75,5 @@ public class HomeLoanPage extends BasePage{
             }
         }
         return dataList;
-    }
-
-    public void scroll() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollBy(0,1000)");
     }
 }

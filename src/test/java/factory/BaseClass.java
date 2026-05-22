@@ -6,8 +6,11 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -65,12 +68,19 @@ public class BaseClass {
         if (executionEnv.equalsIgnoreCase("local")) {
             switch (browser.toLowerCase()) {
                 case "chrome":
+                    ChromeOptions options = new ChromeOptions();
+                    //options.addArguments("--disable-notifications");
                     driver = new ChromeDriver();
+                    options.addArguments("--disable-notifications");
                     break;
                 case "edge":
+                    EdgeOptions edgeOptions = new EdgeOptions();
+                    edgeOptions.addArguments("--disable-notifications");
                     driver = new EdgeDriver();
                     break;
                 case "firefox":
+                    FirefoxOptions firefoxOptions=new FirefoxOptions();
+                    firefoxOptions.addArguments("--disable-notifications");
                     driver = new FirefoxDriver();
                     break;
                 default:
@@ -78,12 +88,10 @@ public class BaseClass {
                     driver = null;
             }
         }
-
         driver.manage().deleteAllCookies();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         return driver;
-        //capture.info("Browser launched successfully");
 
     }
 

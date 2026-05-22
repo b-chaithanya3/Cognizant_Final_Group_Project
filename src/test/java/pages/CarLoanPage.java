@@ -5,6 +5,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -22,51 +25,45 @@ public class CarLoanPage extends BasePage {
     }
 
     // Locators
-    By loanAmount = By.xpath("//input[@id='loanamount']");
-    By interest = By.xpath("//input[@id='loaninterest']");
-    By tenure = By.xpath("//input[@id='loanterm']");
-    By yearsOption = By.xpath("//label[normalize-space()='Yr']");
-    By emiValue = By.xpath("//div[@id='emiamount']//p[contains(text(),'₹')]");
+    @FindBy(id="carLoanNewFixedLoanRange-Amt")
+    private WebElement loanAmount;
 
-    // Actions
-    public void enterLoanDetails(String amt, String rate, String time) {
-        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(loanAmount)).clear();
-        driver.findElement(loanAmount).sendKeys(amt);
+    @FindBy(name="loan_tenure")
+    private WebElement tenure;
 
-        driver.findElement(interest).clear();
-        driver.findElement(interest).sendKeys(rate);
+    @FindBy(name="interest_rate")
+    private WebElement interestRate;
 
-        driver.findElement(tenure).clear();
-        driver.findElement(tenure).sendKeys(time);
+    @FindBy(xpath="//p[@class='emi_amt']")
+    private WebElement emiAmount;
 
-        driver.findElement(yearsOption).click();
+    // Locator for the Slider Handle based on your HTML
+    @FindBy(css=".noUi-handle")
+    private WebElement loanSliderHandle;
+
+    public WebElement getLoanAmountField() {
+        return loanAmount;
     }
 
-    public String getEMI() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(emiValue)).getText();
+    public WebElement getTenureField() {
+        return tenure;
     }
 
-    public List<String[]> getTableData() {
-        //return driver.findElements(By.xpath("//div[@id='emipaymentdetails']//tbody//tr"));
-        List<WebElement> scheduleRows=driver.findElements(By.xpath("//div[@id='emipaymentdetails']//tbody//tr"));
-        List<String[]> dataList = new ArrayList<>();
-        dataList.add(new String[]{"Year", "Principal(A)", "Interest(B)", "Total Payment(A+B)", "Balance", "Loan Paid To Date"});
-
-        for (WebElement row : scheduleRows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            if (!cells.isEmpty()) {
-                String[] rowData = new String[cells.size()];
-                for (int i = 0; i < cells.size(); i++) {
-                    rowData[i] = cells.get(i).getText();
-                }
-                dataList.add(rowData);
-            }
-        }
-        return dataList;
+    public WebElement getInterestRateField() {
+        return interestRate;
     }
-    public void scrollDown() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollBy(0,1000)");
+
+    public String getMonthlyEMI() {
+        return emiAmount.getText();
+    }
+
+    /**
+     * UI Validation Requirement: Move the slider (scroll bar)
+     * This moves the handle to simulate user interaction with the scale.
+     */
+    public void moveLoanSlider(int xOffset) {
+        Actions move = new Actions(driver);
+        // Drag the handle by a specific horizontal offset
+        move.dragAndDropBy(loanSliderHandle, xOffset, 0).build().perform();
     }
 }
