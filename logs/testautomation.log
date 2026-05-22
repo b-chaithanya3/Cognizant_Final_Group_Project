@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2026-05-22 09:05:17 INFO  BaseClass:65 - Car Loan EMI: 131525.0 | Interest M1: 11875.000000000002 | Principal M1: 119650.0
 2026-05-22 09:05:31 INFO  BaseClass:41 - Home Loan EMI: 11742.0
 2026-05-22 09:05:35 INFO  BaseClass:49 - Home Loan amortization table stored in Excel.
@@ -34,3 +35,19 @@
 2026-05-22 10:00:38 INFO  BaseClass:49 - Home Loan amortization table stored in Excel.
 2026-05-22 10:00:54 INFO  BaseClass:41 - Home Loan EMI: 665737.0
 2026-05-22 10:00:56 INFO  BaseClass:49 - Home Loan amortization table stored in Excel.
+=======
+2026-05-21 10:32:47 INFO  BaseClass:28 - navigate to car loan calculator
+2026-05-21 10:32:47 INFO  BaseClass:34 - Entering amount,rate,time
+2026-05-21 10:32:48 INFO  BaseClass:40 - getting emi value
+2026-05-21 10:32:48 INFO  BaseClass:57 - Entering car loan emi data into excel file 
+2026-05-21 10:33:28 INFO  BaseClass:28 - navigate to Home loan calculator
+2026-05-21 10:33:28 INFO  BaseClass:34 - Entering amount,rate,time
+2026-05-21 10:33:28 INFO  BaseClass:40 - getting emi value
+2026-05-21 12:16:41 INFO  BaseClass:28 - navigate to car loan calculator
+2026-05-21 12:16:41 INFO  BaseClass:34 - Entering amount,rate,time
+2026-05-21 12:16:42 INFO  BaseClass:40 - getting emi value
+2026-05-21 12:16:42 INFO  BaseClass:57 - Entering car loan emi data into excel file 
+2026-05-21 12:17:22 INFO  BaseClass:28 - navigate to Home loan calculator
+2026-05-21 12:17:22 INFO  BaseClass:34 - Entering amount,rate,time
+2026-05-21 12:17:22 INFO  BaseClass:40 - getting emi value
+>>>>>>> 597ef212729bf06a97ab1a9a1661f32d4d75905d
